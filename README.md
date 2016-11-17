@@ -6,10 +6,19 @@ Utilize Flask Tracking as a starting point. (branch: part-3)
 https://github.com/mjhea0/flask-tracking
 It's an example application to go along with the tutorial series on the [Real Python blog](http://www.realpython.com/blog/).
 
+Migrate towards this python2 app:
+
+github.com/radekstepan/FlaskBudget.git
+
+Look at the csv importer from here:
+
+github.com/svieira/Budget-Manager.git
+
 ## setup
 
 - setup conda env with python 3.5 
 - then pip install current versions of:
+
 Flask
 Flask-SQLAlchemy
 Flask-WTF
@@ -19,6 +28,7 @@ Flask-Testing
 mock
 
 - this results in the following 'conda list'
+
 backports.pbkdf2          0.1                       <pip>
 click                     6.6                       <pip>
 Flask                     0.11.1                    <pip>
