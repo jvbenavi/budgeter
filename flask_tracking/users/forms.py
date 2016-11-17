@@ -1,4 +1,4 @@
-from flask.ext.wtf import Form
+from flask_wtf import FlaskForm
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from wtforms import fields
 from wtforms.validators import Email, InputRequired, ValidationError
@@ -6,7 +6,7 @@ from wtforms.validators import Email, InputRequired, ValidationError
 from .models import User
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     email = fields.StringField(validators=[InputRequired(), Email()])
     password = fields.StringField(validators=[InputRequired()])
 
@@ -29,7 +29,7 @@ class LoginForm(Form):
         form.user = user
 
 
-class RegistrationForm(Form):
+class RegistrationForm(FlaskForm):
     name = fields.StringField("Display Name")
     email = fields.StringField(validators=[InputRequired(), Email()])
     password = fields.StringField(validators=[InputRequired()])

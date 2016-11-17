@@ -9,6 +9,7 @@ class BaseConfiguration(object):
     SECRET_KEY = 'flask-session-insecure-secret-key'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(_cwd, 'flask-tracking.db')
     SQLALCHEMY_ECHO = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     HASH_ROUNDS = 100000
 
 
@@ -26,3 +27,4 @@ class TestConfiguration(BaseConfiguration):
 
 class DebugConfiguration(BaseConfiguration):
     DEBUG = True
+    FLASK_DEBUG = 1 # from http://flask.pocoo.org/docs/0.11/quickstart/#quickstart

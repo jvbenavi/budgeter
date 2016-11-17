@@ -2,7 +2,7 @@ from random import SystemRandom
 
 from backports.pbkdf2 import pbkdf2_hmac, compare_digest
 from flask import current_app
-from flask.ext.login import UserMixin
+from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from flask_tracking.data import CRUDMixin, db
@@ -29,7 +29,7 @@ class User(UserMixin, CRUDMixin, db.Model):
     def password(self, value):
         # When a user is first created, give them a salt
         if self._salt is None:
-            self._salt = bytes(SystemRandom().getrandbits(128))
+            self._salt = bytes(SystemRandom().getrandbits(8))
         self._password = self._hash_password(value)
 
     def is_valid_password(self, password):

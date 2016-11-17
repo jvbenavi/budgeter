@@ -1,4 +1,4 @@
-from flask.ext.login import AnonymousUserMixin, LoginManager
+from flask_login import AnonymousUserMixin, LoginManager
 
 from flask_tracking.users.models import User
 

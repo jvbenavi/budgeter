@@ -1,6 +1,6 @@
 from datetime import datetime as dt
 
-from flask.ext.wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import fields
 from wtforms.validators import Required
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
@@ -8,11 +8,11 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from .models import Site
 
 
-class SiteForm(Form):
+class SiteForm(FlaskForm):
     base_url = fields.StringField(validators=[Required()])
 
 
-class VisitForm(Form):
+class VisitForm(FlaskForm):
     browser = fields.StringField()
     date = fields.DateField(default=dt.now)
     event = fields.StringField()

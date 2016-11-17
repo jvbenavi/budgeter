@@ -1,21 +1,18 @@
 from flask import abort, Blueprint, flash, jsonify, Markup, redirect, render_template, request, url_for
-from flask.ext.login import current_user, login_required
+from flask_login import current_user, login_required
 
 from .forms import SiteForm, VisitForm
 from .geodata import get_geodata
 from .models import Site, Visit
 from flask_tracking.data import query_to_list
 
-
 tracking = Blueprint("tracking", __name__)
-
 
 @tracking.route("/")
 def index():
-    if not current_user.is_anonymous():
+    if not current_user.is_anonymous:
         return redirect(url_for(".view_sites"))
     return render_template("index.html")
-
 
 @tracking.route("/sites/<int:site_id>")
 @login_required
