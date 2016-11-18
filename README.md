@@ -29,6 +29,7 @@ mock
 
 - this results in the following 'conda list'
 
+```bash
 backports.pbkdf2          0.1                       <pip>
 click                     6.6                       <pip>
 Flask                     0.11.1                    <pip>
@@ -55,3 +56,4 @@ wheel                     0.29.0                   py35_0
 WTForms                   2.1                       <pip>
 xz                        5.2.2                         0
 zlib                      1.2.8                         3
+```

@@ -4,10 +4,10 @@ from flask import url_for
 from mock import Mock, patch
 from werkzeug.datastructures import Headers
 
-from flask_tracking.test_base import BaseTestCase
-from flask_tracking.users.models import User
+from budgeterapp.test_base import BaseTestCase
+from budgeterapp.users.models import User
 from .models import Site, Visit
-from ..tracking import views
+from ..budgeting import views
 
 
 class TrackingViewsTests(BaseTestCase):
@@ -23,7 +23,7 @@ class TrackingViewsTests(BaseTestCase):
             'longitude': '-118.25'
         }
 
-        url = url_for('tracking.add_visit', site_id=site.id)
+        url = url_for('budgeting.add_visit', site_id=site.id)
         wsgi_environment = {'REMOTE_ADDR': '1.2.3.4'}
         headers = Headers([('Referer', '/some/url')])
 

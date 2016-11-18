@@ -1,4 +1,4 @@
-from flask_tracking.data import CRUDMixin, db
+from budgeterapp.data import CRUDMixin, db
 
 
 class Site(CRUDMixin, db.Model):

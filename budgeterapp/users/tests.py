@@ -1,7 +1,7 @@
 from flask import url_for
 from flask_login import current_user
 
-from flask_tracking.test_base import BaseTestCase
+from budgeterapp.test_base import BaseTestCase
 from .models import User
 
 
@@ -14,7 +14,7 @@ class UserViewsTests(BaseTestCase):
                                         data={"email": "joe@joes.com",
                                               "password": "12345"})
 
-            self.assert_redirects(response, url_for("tracking.index"))
+            self.assert_redirects(response, url_for("budgeting.index"))
             self.assertTrue(current_user.name == "Joe")
             self.assertFalse(current_user.is_anonymous)
 
@@ -48,7 +48,7 @@ class UserViewsTests(BaseTestCase):
                                         data={"email": "test@ing.com",
                                               "password": "5555"})
 
-            self.assert_redirects(response, url_for("tracking.index"))
+            self.assert_redirects(response, url_for("budgeting.index"))
             self.assertFalse(current_user.is_anonymous)
             self.assertEqual(current_user.email, "test@ing.com")
 
@@ -56,5 +56,5 @@ class UserViewsTests(BaseTestCase):
         with self.client:
             response = self.client.get(url_for("users.logout"))
 
-            self.assert_redirects(response, url_for("tracking.index"))
+            self.assert_redirects(response, url_for("budgeting.index"))
             self.assertTrue(current_user.is_anonymous)

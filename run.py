@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask_tracking import app, db
+from budgeterapp import app, db
 
 if __name__ == "__main__":
     app.debug = True
@@ -8,5 +8,5 @@ if __name__ == "__main__":
     # context right now, we will instead pass in the configured application
     # into our `create_all` call.
     db.create_all(app=app)
-    app.run()
-    # app.run(host='0.0.0.0')
+    # app.run()
+    app.run(host='0.0.0.0')

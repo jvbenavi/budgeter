@@ -4,17 +4,17 @@ from flask_login import current_user, login_required
 from .forms import SiteForm, VisitForm
 from .geodata import get_geodata
 from .models import Site, Visit
-from flask_tracking.data import query_to_list
+from budgeterapp.data import query_to_list
 
-tracking = Blueprint("tracking", __name__)
+budgeting = Blueprint("budgeting", __name__)
 
-@tracking.route("/")
+@budgeting.route("/")
 def index():
     if not current_user.is_anonymous:
         return redirect(url_for(".view_sites"))
     return render_template("index.html")
 
-@tracking.route("/sites/<int:site_id>")
+@budgeting.route("/sites/<int:site_id>")
 @login_required
 def view_site_visits(site_id=None):
     site = Site.get_or_404(site_id)
@@ -23,10 +23,10 @@ def view_site_visits(site_id=None):
 
     query = Visit.query.filter(Visit.site_id == site_id)
     data = query_to_list(query)
-    return render_template("tracking/site.html", visits=data, site=site)
+    return render_template("budgeting/site.html", visits=data, site=site)
 
 
-@tracking.route("/sites/<int:site_id>/visit", methods=("GET", "POST"))
+@budgeting.route("/sites/<int:site_id>/visit", methods=("GET", "POST"))
 def add_visit(site_id=None):
     site = Site.get_or_404(site_id)
 
@@ -62,7 +62,7 @@ def add_visit(site_id=None):
     return jsonify(errors=form.errors), 400
 
 
-@tracking.route("/sites", methods=("GET", "POST"))
+@budgeting.route("/sites", methods=("GET", "POST"))
 @login_required
 def view_sites():
     form = SiteForm()
@@ -88,7 +88,7 @@ def view_sites():
         # Since it is expected, we ignore it and carry on.
         pass
 
-    return render_template("tracking/sites.html", sites=results, form=form)
+    return render_template("budgeting/sites.html", sites=results, form=form)
 
 
 _LINK = Markup('<a href="{url}">{name}</a>')

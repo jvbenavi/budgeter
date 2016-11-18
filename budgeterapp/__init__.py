@@ -2,9 +2,9 @@ from flask import Flask
 
 from .auth import login_manager
 from .data import db
-import flask_tracking.errors as errors
-import flask_tracking.logs as logs
-from .tracking.views import tracking
+import budgeterapp.errors as errors
+import budgeterapp.logs as logs
+from .budgeting.views import budgeting
 from .users.views import users
 
 app = Flask(__name__)
@@ -24,5 +24,5 @@ login_manager.init_app(app)
 logs.init_app(app, remove_existing_handlers=True)
 errors.init_app(app)
 
-app.register_blueprint(tracking)
+app.register_blueprint(budgeting)
 app.register_blueprint(users)

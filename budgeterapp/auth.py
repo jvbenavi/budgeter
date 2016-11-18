@@ -1,6 +1,6 @@
 from flask_login import AnonymousUserMixin, LoginManager
 
-from flask_tracking.users.models import User
+from budgeterapp.users.models import User
 
 login_manager = LoginManager()
 

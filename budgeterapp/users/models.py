@@ -5,7 +5,7 @@ from flask import current_app
 from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 
-from flask_tracking.data import CRUDMixin, db
+from budgeterapp.data import CRUDMixin, db
 
 
 class User(UserMixin, CRUDMixin, db.Model):

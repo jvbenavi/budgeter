@@ -7,7 +7,7 @@ class BaseConfiguration(object):
     DEBUG = False
     TESTING = False
     SECRET_KEY = 'flask-session-insecure-secret-key'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(_cwd, 'flask-tracking.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + join(_cwd, 'budgeting.db')
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     HASH_ROUNDS = 100000
