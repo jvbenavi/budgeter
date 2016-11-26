@@ -1,0 +1,43 @@
+{% extends "admin_layout.html" %}
+{% block nav %}
+<nav class="nav">
+    <ul>
+        <li><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('expenses.index') }}">Expenses</a></li>
+        <li><a href="{{ url_for('income.index') }}">Income</a></li>
+        <li><a href="{{ url_for('loans.index') }}">Loans</a></li>
+        <li><a href="{{ url_for('accounts.show_transfers') }}" class="active">Accounts</a></li>
+        <li><a href="{{ url_for('users.add_private') }}">Users</a></li>
+    </ul>
+</nav>
+<nav class="subnav">
+    <ul>
+        <li><a href="{{ url_for('accounts.show_transfers') }}">Transfers</a></li>
+        <li><a href="{{ url_for('accounts.add_account') }}">Add Account</a></li>
+        <li><a href="{{ url_for('accounts.edit_account') }}" class="active">Edit Account</a></li>
+        <li><a href="{{ url_for('accounts.add_transfer') }}">Account Transfer</a></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block header %}<h1>Account Transfer</h1>{% endblock %}
+
+{% block body %}
+<div class="left grid_6">
+    <form action="{{ url_for('accounts.edit_account') }}" method=post class="form_1">
+        <dl>
+            <dt>Account:
+            <dd><select name=account>
+                {% for account in accounts %}
+                <option value="{{ account.id }}">{{ account.name }}</option>
+                {% endfor %}
+            </select>
+
+            <dt>New Balance:
+            <dd><input type=text name=balance>
+
+            <dd><input type=submit value=Save>
+        </dl>
+    </form>
+</div>
+{% endblock %}

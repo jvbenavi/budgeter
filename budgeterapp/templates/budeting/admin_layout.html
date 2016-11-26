@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+	<title>Budget</title>
+
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/reset.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/grid.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="{{ url_for('static', filename='js/jquery-1.5.min.js') }}" type="text/javascript"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <header class="main">
+            <div id="title">
+                <span class="title">Budget Administration</span>
+                <nav class="account">
+                    <ul>
+                        <li><a href="#">{{ session.user_name }}</a></li>
+                        <li><a href="#">Help</a></li>
+                        <li class="omega"><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                    </ul>
+                </nav>
+                <div class="clear"></div>
+            </div>
+            {% block nav %}{% endblock %}
+        </header>
+        <section class="container">
+            <header>{% block header %}{% endblock %}</header>
+            <article class="container_{% block width %}12{% endblock %}">
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if error or messages %}
+                    <ul class=messages>
+                        {% if error %}
+                            <li class="error">{{ error }}</li>
+                        {% endif %}
+
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                {% endwith %}
+
+                {% block body %}{% endblock %}
+                <div class="clear"></div>
+            </article>
+            <footer class="foot"><center>Powered by Werkzeug, &copy; Copyright 2010-2011 by AgileByte</center></footer>
+        </section>
+    </div>
+</body>
+</html>

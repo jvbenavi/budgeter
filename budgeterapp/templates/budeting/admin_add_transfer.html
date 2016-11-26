@@ -1,0 +1,57 @@
+{% extends "admin_layout.html" %}
+{% block nav %}
+<nav class="nav">
+    <ul>
+        <li><a href="{{ url_for('dashboard.index') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('expenses.index') }}">Expenses</a></li>
+        <li><a href="{{ url_for('income.index') }}">Income</a></li>
+        <li><a href="{{ url_for('loans.index') }}">Loans</a></li>
+        <li><a href="{{ url_for('accounts.show_transfers') }}" class="active">Accounts</a></li>
+        <li><a href="{{ url_for('users.add_private') }}">Users</a></li>
+    </ul>
+</nav>
+<nav class="subnav">
+    <ul>
+        <li><a href="{{ url_for('accounts.show_transfers') }}">Transfers</a></li>
+        <li><a href="{{ url_for('accounts.add_account') }}">Add Account</a></li>
+        <li><a href="{{ url_for('accounts.edit_account') }}">Edit Account</a></li>
+        <li><a href="{{ url_for('accounts.add_transfer') }}" class="active">Account Transfer</a></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block header %}<h1>Account Transfer</h1>{% endblock %}
+
+{% block body %}
+<div class="left grid_6">
+    <form action="{{ url_for('accounts.add_transfer') }}" method=post class="form_1">
+        <dl>
+            <dt>Date:
+            <dd><input type=text name=date {% if request.form['date'] %}value="{{ date }}"{% endif %}>
+
+            <dt>From Account:
+            <dd><select name=deduct_from>
+                {% for account in accounts %}
+                <option value="{{ account.id }}"
+                    {% if request.form['deduct_from'] == account.id %}selected{% endif %}
+                    >{{ account.name }}</option>
+                {% endfor %}
+            </select>
+
+            <dt>To Account:
+            <dd><select name=credit_to>
+                {% for account in accounts %}
+                <option value="{{ account.id }}"
+                    {% if request.form['credit_to'] == account.id %}selected{% endif %}
+                    >{{ account.name }}</option>
+                {% endfor %}
+            </select>
+
+            <dt>Amount:
+            <dd><input type=text name=amount {% if request.form['amount'] %}value="{{ amount }}"{% endif %}>
+
+            <dd><input type=submit value=Transfer>
+        </dl>
+    </form>
+</div>
+{% endblock %}

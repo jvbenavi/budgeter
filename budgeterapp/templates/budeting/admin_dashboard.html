@@ -1,0 +1,208 @@
+{% extends "admin_layout.html" %}
+{% block nav %}
+<nav class="nav">
+    <ul>
+        <li><a href="{{ url_for('dashboard.index') }}" class="active white">Dashboard</a></li>
+        <li><a href="{{ url_for('expenses.index') }}">Expenses</a></li>
+        <li><a href="{{ url_for('income.index') }}">Income</a></li>
+        <li><a href="{{ url_for('loans.index') }}">Loans</a></li>
+        <li><a href="{{ url_for('accounts.show_transfers') }}">Accounts</a></li>
+        <li><a href="{{ url_for('users.add_private') }}">Users</a></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block header %}<h1>Dashboard</h1>{% endblock %}
+
+{% block body %}
+<div class="left grid_6">
+    {% for entry in uncategorized_expenses %}
+    {% if loop.first %}
+    <h2>Uncategorized Expenses</h2>
+    <ul class="list_1">
+        {% endif %}
+        <li class="orange {% if loop.last %}last{% endif %}">
+            <p>
+                <span class="amount">&minus; &pound;{{ entry.0.amount|currencyformat }}</span>
+                {{ entry.0.description }} in <a href="{{ url_for('expenses.index', category=entry.2) }}">{{ entry.1 }}</a>
+            </p>
+            <div class="date">{{ entry.0.date|datetimeformat }}</div>
+            <div class="actions">
+                <ul><li class="first"><a href="#">Edit</a></li><li><a href="#">Delete</a></li></ul>
+            </div>
+        </li>
+        {% if loop.last %}
+    </ul>
+    {% endif %}
+    {% endfor %}
+
+    {% for entry in latest_expenses %}
+    {% if loop.first %}
+    <h2>Latest Expenses</h2>
+    <ul class="list_1">
+        {% endif %}
+        <li class="blue {% if loop.last %}last{% endif %}">
+            <p>
+                <span class="amount">&minus; &pound;{{ entry.0.amount|currencyformat }}</span>
+                {{ entry.0.description }} in <a href="{{ url_for('expenses.index', category=entry.2) }}">{{ entry.1 }}</a>
+            </p>
+            <div class="date">
+                {% if entry.3 != None %}
+                    shared with <a href="{{ url_for('loans.index', user=entry.4) }}">{{ entry.3 }}</a>
+                {% endif %}
+                {{ entry.0.date|datetimeformat }}
+            </div>
+            <div class="actions">
+                <ul>
+                    <li class="first"><a href="{{ url_for('expenses.edit_expense', expense_id=entry.0.id) }}">Edit</a></li>
+                    <li><a href="#">Delete</a></li>
+                </ul>
+            </div>
+        </li>
+        {% if loop.last %}
+    </ul>
+    {% endif %}
+    {% endfor %}
+
+    {% for entry in latest_income %}
+    {% if loop.first %}
+    <h2>Latest Income</h2>
+    <ul class="list_1">
+        {% endif %}
+        <li class="green {% if loop.last %}last{% endif %}">
+            <p>
+                <span class="amount">&pound;{{ entry.0.amount|currencyformat }}</span>
+                {{ entry.0.description }} in <a href="{{ url_for('income.index', category=entry.2) }}">{{ entry.1 }}</a>
+            </p>
+            <div class="date">
+                {{ entry.0.date|datetimeformat }}
+            </div>
+            <div class="actions">
+                <ul>
+                    <li class="first"><a href="{{ url_for('income.edit_income', income_id=entry.0.id) }}">Edit</a></li>
+                    <li><a href="#">Delete</a></li>
+                </ul>
+            </div>
+        </li>
+        {% if loop.last %}
+    </ul>
+    {% endif %}
+    {% endfor %}
+</div>
+<div class="right grid_6">
+    {% for account in assets %}
+    {% if loop.first %}
+    <h2>Assets</h2>
+    <ul class="list_1">
+        {% endif %}
+        {% if account.0.type == "asset" %}
+            {% if account.0.balance < 0 %}
+            <li class="red {% if loop.last %}last{% endif %}">
+                <span class="amount">&minus; &pound;{{ account.0.balance|abs|currencyformat }}</span>
+                <a>{{ account.0.name }}</a>
+            </li>
+            {% else %}
+            <li class="green {% if loop.last %}last{% endif %}">
+                <span class="amount">&plus; &pound;{{ account.0.balance|abs|currencyformat }}</span>
+                <a>{{ account.0.name }}</a>
+            </li>
+            {% endif %}
+        {% else %}
+        <li class="gray {% if loop.last %}last{% endif %}">
+            <span class="amount">&pound;{{ account.0.balance|currencyformat }}</span>
+            Loaned to <a href="{{ url_for('loans.index', user=account.2) }}">{{ account.1 }}</a>
+        </li>
+        {% endif %}
+        {% if loop.last %}
+        <li class="sum">
+            <span class="amount">
+            {% if assets_total > 0 %}
+                <strong>&plus; &pound;{{ assets_total|abs|currencyformat }}</strong>
+            {% else %}
+                <strong>&minus; &pound;{{ assets_total|abs|currencyformat }}</strong>
+            {% endif %}
+            </span>
+        </li>
+    </ul>
+    {% endif %}
+    {% endfor %}
+
+    {% for account in liabilities %}
+    {% if loop.first %}
+    <h2>Liabilities</h2>
+    <ul class="list_1">
+        {% endif %}
+        {% if account.0.type == "liability" %}
+            {% if account.0.balance < 0 %}
+            <li class="red {% if loop.last %}last{% endif %}">
+                <span class="amount">&minus; &pound;{{ account.0.balance|abs|currencyformat }}</span>
+                <a>{{ account.0.name }}</a>
+            </li>
+            {% else %}
+            <li class="green {% if loop.last %}last{% endif %}">
+                <span class="amount">&plus; &pound;{{ account.0.balance|abs|currencyformat }}</span>
+                <a>{{ account.0.name }}</a>
+            </li>
+            {% endif %}
+        {% else %}
+        <li class="red {% if loop.last %}last{% endif %}">
+            <span class="amount">&minus; &pound;{{ account.0.balance|abs|currencyformat }}</span>
+            Loaned from <a href="{{ url_for('loans.index', user=account.2) }}">{{ account.1 }}</a>
+        </li>
+        {% endif %}
+        {% if loop.last %}
+        <li class="sum">
+            <span class="amount">
+                {% if liabilities_total > 0 %}
+                    <strong>&plus; &pound;{{ liabilities_total|abs|currencyformat }}</strong>
+                {% else %}
+                    <strong>&minus; &pound;{{ liabilities_total|abs|currencyformat }}</strong>
+                {% endif %}
+            </span>
+        </li>
+    </ul>
+    {% endif %}
+    {% endfor %}
+</div>
+
+<div class="clear"></div>
+
+<div class="left grid_6">
+    {% if averages_list %}
+    <h2>Monthly Averages</h2>
+    <ul class="list_1">
+        {% for category in averages_list %}
+        <li class="blue {% if loop.last %}last{% endif %}">
+            <p>
+                <span class="amount">&minus; &pound;{{ category.average|currencyformat }}</span>
+                 <a href="{{ url_for('expenses.index', category=category.slug) }}">{{ category.name }}</a>
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<div class="right grid_6">
+    {% if totals_list %}
+    <h2>Monthly Totals</h2>
+    <ul id="chart">
+        {% for total in totals_list %}
+        <li>
+            {% if total['expenses'] %}
+            <div class="expenses" style="height:{{ total['expenses-height'] }}px;">
+                <b>&minus;&nbsp;&pound;{{ total['expenses']|currencyformat|trimzeroes }}</b></div>
+            {% endif %}
+            {% if total['income'] %}
+            <div class="income" style="height:{{ total['income-height'] }}px;">
+                <b>&pound;{{ total['income']|currencyformat|trimzeroes }}</b></div>
+            {% endif %}
+            <span>{{ total['month'] }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="clear"></div>
+    {% endif %}
+</div>
+
+{% endblock %}
