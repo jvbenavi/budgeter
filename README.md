@@ -57,3 +57,6 @@ WTForms                   2.1                       <pip>
 xz                        5.2.2                         0
 zlib                      1.2.8                         3
 ```
+
+pip install -r /path/to/requirements.txt ?? 
+
