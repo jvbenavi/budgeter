@@ -7,7 +7,6 @@ from sqlalchemy.ext.hybrid import hybrid_property
 
 from budgeterapp.data import CRUDMixin, db
 
-
 class User(UserMixin, CRUDMixin, db.Model):
     __tablename__ = 'users_user'
 

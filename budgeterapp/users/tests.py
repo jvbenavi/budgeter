@@ -4,7 +4,6 @@ from flask_login import current_user
 from budgeterapp.test_base import BaseTestCase
 from .models import User
 
-
 class UserViewsTests(BaseTestCase):
     def test_users_can_login(self):
         User.create(name="Joe", email="joe@joes.com", password="12345")

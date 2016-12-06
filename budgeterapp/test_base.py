@@ -2,7 +2,6 @@ from flask_testing import TestCase
 
 from . import app, db
 
-
 class BaseTestCase(TestCase):
     """A base test case for flask-tracking."""
 
@@ -16,3 +15,4 @@ class BaseTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+

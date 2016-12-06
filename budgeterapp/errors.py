@@ -1,7 +1,6 @@
 from flask import current_app, Markup, render_template, request
 from werkzeug.exceptions import default_exceptions, HTTPException
 
-
 def error_handler(error):
     msg = "Request resulted in {}".format(error)
     current_app.logger.warning(msg, exc_info=error)
@@ -27,9 +26,9 @@ def error_handler(error):
                            description=Markup(description),
                            error=error)
 
-
 def init_app(app):
     for exception in default_exceptions:
         app.register_error_handler(exception, error_handler)
 
     app.register_error_handler(Exception, error_handler)
+
